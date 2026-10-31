@@ -1,0 +1,7 @@
+.env
+__pycache__/
+.git
+submission/
+tests/
+README.md
+docs/

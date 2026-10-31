@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Навигатор — защита выпускного проекта</title>
+<style>
+  @page { size: 1280px 720px; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #0e2a33; }
+  .slide {
+    width: 1280px; height: 720px; position: relative; overflow: hidden;
+    page-break-after: always; background: #e7f2ec; color: #10262c;
+    font-family: "Segoe UI", sans-serif;
+  }
+  .slide:last-child { page-break-after: auto; }
+  .dark { background: #0e2a33; color: #e7f2ec; }
+  .pad { padding: 46px 64px 40px; height: 100%; }
+  .kicker {
+    font-family: Bahnschrift, "Segoe UI", sans-serif;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    font-size: 15px; color: #1f6f8a; margin: 0 0 14px;
+  }
+  .dark .kicker { color: #e6a23c; }
+  h1 {
+    font-family: Bahnschrift, "Segoe UI", sans-serif;
+    font-weight: 600; letter-spacing: -0.03em;
+    font-size: 76px; line-height: 0.92; margin: 0;
+  }
+  h2 {
+    font-family: Bahnschrift, "Segoe UI", sans-serif;
+    font-weight: 600; font-size: 42px; line-height: 1.05; margin: 0 0 22px;
+  }
+  p { margin: 0; font-size: 22px; line-height: 1.35; }
+  .horizon { display: flex; height: 14px; width: 420px; margin: 22px 0 8px; }
+  .horizon i { display: block; flex: 1; }
+  .horizon .a { background: #e6a23c; }
+  .horizon .b { background: #7eb6c9; }
+  .hlabels { display: flex; width: 420px; font-size: 13px; letter-spacing: 0.04em; }
+  .hlabels span { flex: 1; }
+  .hlabels .b { text-align: right; color: #1f6f8a; }
+  .dark .hlabels, .dark .hlabels .b { color: #d5e4ea; }
+  .foot {
+    position: absolute; left: 64px; right: 64px; bottom: 28px;
+    display: flex; justify-content: space-between;
+    font-size: 14px; color: #4e656c;
+  }
+  .dark .foot { color: #9db4bc; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-top: 8px; }
+  .card {
+    background: #f7fbf8; border-top: 8px solid #e6a23c;
+    padding: 18px 18px 16px; min-height: 250px;
+  }
+  .card.prem { border-top-color: #1f6f8a; }
+  .card.both { border-top-color: #0e2a33; }
+  .card h3 { margin: 0 0 10px; font-size: 22px; font-family: Bahnschrift, "Segoe UI", sans-serif; }
+  .card p { font-size: 18px; }
+  .steps { display: flex; gap: 10px; margin-top: 18px; }
+  .step { flex: 1; background: #0e2a33; color: #e7f2ec; padding: 16px 12px 14px; min-height: 210px; }
+  .step b {
+    display: block; font-family: Bahnschrift, "Segoe UI", sans-serif;
+    font-size: 28px; color: #e6a23c; margin-bottom: 8px;
+  }
+  .step span { display: block; font-size: 18px; line-height: 1.3; }
+  table { width: 100%; border-collapse: collapse; font-size: 20px; }
+  td { padding: 9px 10px; vertical-align: top; border-bottom: 1px solid #c5d5cc; }
+  td:first-child { width: 42px; color: #1f6f8a; font-family: Bahnschrift, "Segoe UI", sans-serif; }
+  .two { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 36px; }
+  .money { font-family: Bahnschrift, "Segoe UI", sans-serif; font-size: 64px; line-height: 1; margin: 8px 0; }
+  .sub { color: #4e656c; font-size: 18px; }
+  ul { margin: 8px 0 0; padding: 0; list-style: none; }
+  li { font-size: 20px; line-height: 1.35; padding: 7px 0 7px 16px; border-left: 3px solid #1f6f8a; margin: 8px 0; }
+</style>
+</head>
+<body>
+
+<section class="slide dark">
+  <div class="pad">
+    <p class="kicker">Выпускной проект · 31 октября 2026</p>
+    <h1>Навигатор</h1>
+    <div class="horizon"><i class="a"></i><i class="b"></i></div>
+    <div class="hlabels"><span>Личная практика</span><span class="b">1С-Премиум</span></div>
+    <p style="max-width:760px;margin-top:28px;font-size:28px;line-height:1.35">Telegram-ассистент отвечает по двум публичным сайтам и не смешивает их цены.</p>
+    <div class="foot"><span>Приколота Александр Фёдорович</span><span>ТЗ v1.2 · gpt-6-sol</span></div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="pad">
+    <p class="kicker">Проблема</p>
+    <h2>Один вопрос, два контура,<br>ответ человека — в рабочий день</h2>
+    <div class="grid">
+      <div class="card"><h3>Вечер и выходной</h3><p>На сайте написано, что Александр отвечает в течение рабочего дня. Между встречами посетитель остаётся с уже опубликованным вопросом.</p></div>
+      <div class="card prem"><h3>Два сайта</h3><p>Опыт и вилка консультации лежат на komfortnavigator.ru. Каталог поддержки — на 1c-prem.ru, языком портфеля сервисов.</p></div>
+      <div class="card both"><h3>Легко смешать</h3><p>5 000–15 000 ₽ — это личная консультация. Цены ООО «1С-Премиум» на сайте нет. Бот не имеет права её сочинить.</p></div>
+    </div>
+    <div class="foot"><span>Навигатор</span><span>2</span></div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="pad">
+    <p class="kicker">Решение</p>
+    <h2>Один бот. Три исхода.</h2>
+    <div class="grid">
+      <div class="card"><h3>Ответ со ссылкой</h3><p>Поиск по базе, не больше трёх URL. Контуры названы своими именами, если вопрос их путает.</p></div>
+      <div class="card prem"><h3>Честный отказ</h3><p>Если фрагмент не покрывает вопрос, модель не вызывается или ответ заменяется фиксированной фразой. Сумма чужого контура не проходит.</p></div>
+      <div class="card both"><h3>Заявка</h3><p>Имя, компания, роль, задача и согласие. Карточка уходит владельцу даже при выключенном OpenAI.</p></div>
+    </div>
+    <div class="foot"><span>Кнопки меню идут в тот же поиск, отдельного текста ответов у них нет</span><span>3</span></div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="pad">
+    <p class="kicker">Как устроено</p>
+    <h2>Сначала ворота, потом модель</h2>
+    <div class="steps">
+      <div class="step"><b>1</b><span>Телефон и почта маскируются до вектора</span></div>
+      <div class="step"><b>2</b><span>PostgreSQL: смысл и точные слова, фильтр контура</span></div>
+      <div class="step"><b>3</b><span>Порог 0,30. Ниже — отказ, gpt-6-sol молчит</span></div>
+      <div class="step"><b>4</b><span>Модель видит только найденные фрагменты. Усилие low</span></div>
+      <div class="step"><b>5</b><span>Сумма в ответе сверяется с личным контуром</span></div>
+      <div class="step"><b>6</b><span>В Telegram — текст и источники. Заявка в журнал РФ</span></div>
+    </div>
+    <div class="foot"><span>Python 3.12 · aiogram 3 · pgvector · text-embedding-3-small</span><span>4</span></div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="pad">
+    <p class="kicker">Демо</p>
+    <h2>Эти вопросы уже прогнаны</h2>
+    <div class="two">
+      <table>
+        <tr><td>1</td><td>Сколько стоит часовая консультация?</td></tr>
+        <tr><td>2</td><td>Первая встреча платная?</td></tr>
+        <tr><td>3</td><td>Какой сертификат по управлению проектами?</td></tr>
+        <tr><td>4</td><td>Вы внедряли 1С:Управление холдингом?</td></tr>
+        <tr><td>5</td><td>Вы сейчас работаете в ООО «1С-Премиум»?</td></tr>
+      </table>
+      <div>
+        <p class="kicker" style="margin-bottom:8px">Ловушки</p>
+        <ul>
+          <li>Цена сопровождения «1С-Премиум» в месяц</li>
+          <li>Часы SLA по КПТР для «нашей базы»</li>
+          <li>Домашний телефон и дата рождения</li>
+          <li>Лицензия 1С:ERP — этого в базе нет</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot"><span>Ответы контрольного прогона — 3–7 секунд</span><span>5</span></div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="pad">
+    <p class="kicker">База и границы</p>
+    <h2>13 документов. Даты больше не спорят.</h2>
+    <div class="two">
+      <div>
+        <p>Шесть карточек личной практики и семь — компании. Заголовки, контур и URL у каждого файла. В индекс попали 54 фрагмента.</p>
+        <p style="margin-top:16px">31.10.2026 резюме на сайте переснято. И страница, и PDF пишут одно: ООО «1С-Премиум», июль 2024 — настоящее время.</p>
+      </div>
+      <ul>
+        <li>Не фирма «1С» и не право подписи</li>
+        <li>Оферту не пересказывает в новые обязательства</li>
+        <li>Часы SLA не выдумывает</li>
+        <li>Семью, домашний телефон и дату рождения не переносит</li>
+      </ul>
+    </div>
+    <div class="foot"><span>Порог сходства после прогона: 0,30</span><span>6</span></div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="pad">
+    <p class="kicker">Экономика · курс 80,6761 ₽</p>
+    <h2>Сколько списывается со счёта</h2>
+    <div class="two">
+      <div>
+        <p class="sub">Касса в месяц при 30 диалогах в сутки</p>
+        <p class="money">4 104 ₽</p>
+        <p>API gpt-6-sol около 36 USD, это 2 904 ₽. VPS в России — 1 200 ₽. На 100 USD генерация останавливается, заявка жива.</p>
+      </div>
+      <ul>
+        <li>Год, касса с буфером 20% — 59 102 ₽</li>
+        <li>Год с трудом автора — 419 102 ₽</li>
+        <li>Бот для клиента — 0 ₽</li>
+        <li>Касса года — это 12 консультаций по 5 000 ₽</li>
+      </ul>
+    </div>
+    <div class="foot"><span>Пик 80 диалогов — около 8 864 ₽ кассы в месяц</span><span>7</span></div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="pad">
+    <p class="kicker">Дальше</p>
+    <h2>Пилот на сервере в России</h2>
+    <div class="grid">
+      <div class="card"><h3>Куда ставить</h3><p>VPS Timeweb Cloud в Москве, Docker Compose, long polling. Заявка не уезжает за рубеж. Selectel или Yandex Cloud — если нужен более формальный договор.</p></div>
+      <div class="card prem"><h3>Пилот</h3><p>5–10 человек, журнал 14 дней вместо гипотезы 30 диалогов. Правка страницы, затем /reindex.</p></div>
+      <div class="card both"><h3>Не в этой версии</h3><p>Оплата, коммерческое предложение «1С-Премиум», календарь, виджет сайта и вторая модель.</p></div>
+    </div>
+    <div class="foot"><span>Действующий бот на сайте не перенастраивался</span><span>8</span></div>
+  </div>
+</section>
+
+</body>
+</html>
