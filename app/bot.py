@@ -291,7 +291,18 @@ async def run() -> None:
     settings = get_settings()
     if not settings.telegram_token:
         raise RuntimeError("В .env нет TELEGRAM_TOKEN. Нужен отдельный бот, не @ExpertDigitalProductsAndBPA_bot.")
-    conn = connect(settings)
+    conn = None
+    last_error: Exception | None = None
+    for _ in range(30):
+        try:
+            conn = connect(settings)
+            break
+        except RuntimeError as exc:
+            last_error = exc
+            logger.info("База ещё не готова, жду 2 секунды")
+            await asyncio.sleep(2)
+    if conn is None:
+        raise last_error
     ensure_schema(conn)
     bot = Bot(settings.telegram_token)
     dispatcher = Dispatcher()

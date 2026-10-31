@@ -1,0 +1,40 @@
+# Отдельный стек рядом с сайтом. Postgres только на 127.0.0.1.
+# OpenAI с московского IP отвечает 403. Запросы к API идут через privoxy
+# на хосте, а тот — через SSH SOCKS на 72.56.100.17. Telegram остаётся прямым.
+name: navigator
+
+services:
+  db:
+    image: mirror.gcr.io/pgvector/pgvector:pg16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: navigator
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: navigator
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U navigator -d navigator"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  bot:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://navigator:${POSTGRES_PASSWORD}@db:5432/navigator
+      HTTP_PROXY: http://host.docker.internal:8118
+      HTTPS_PROXY: http://host.docker.internal:8118
+      NO_PROXY: localhost,127.0.0.1,db
+
+volumes:
+  pgdata:

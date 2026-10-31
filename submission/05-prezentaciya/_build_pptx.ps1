@@ -62,7 +62,7 @@ Add-Tx $s 48 36 700 20 "ВЫПУСКНОЙ ПРОЕКТ  ·  31 ОКТЯБРЯ 2
 Add-Tx $s 48 78 800 80 "Навигатор" 60 $light "Bahnschrift" 1 | Out-Null
 Add-Horizon $s 48 175 $true
 Add-Tx $s 48 240 760 90 "Telegram-ассистент отвечает по двум публичным сайтам и не смешивает их цены." 24 $light "Segoe UI" 0 | Out-Null
-Add-Foot $s "Приколота Александр Фёдорович" "ТЗ v1.2" $true
+Add-Foot $s "Приколота Александр Фёдорович" "ТЗ v1.3" $true
 
 $s = $pres.Slides.Add(2, 12); Set-Bg $s $paper
 Add-Tx $s 48 32 700 18 "ПРОБЛЕМА" 13 $steel "Bahnschrift" 0 | Out-Null
@@ -147,18 +147,18 @@ Add-Tx $s 48 32 800 18 "ЭКОНОМИКА  ·  КУРС 80,6761 ₽" 13 $steel 
 Add-Tx $s 48 56 860 46 "Сколько списывается со счёта" 32 $ink "Bahnschrift" 1 | Out-Null
 Add-Tx $s 48 130 420 24 "Касса в месяц при 30 диалогах в сутки" 14 $muted "Segoe UI" 0 | Out-Null
 Add-Tx $s 48 158 420 70 "4 104 ₽" 48 $ink "Bahnschrift" 1 | Out-Null
-Add-Tx $s 48 240 440 140 "API gpt-6-sol около 36 USD, это 2 904 ₽. VPS в России — 1 200 ₽. На 100 USD генерация останавливается, заявка остаётся." 18 $ink "Segoe UI" 0 | Out-Null
+Add-Tx $s 48 240 440 180 "API gpt-6-sol около 36 USD, это 2 904 ₽. Строка VPS 1 200 ₽ — оценка отдельной машины. Сейчас бот на сервере сайта. На 100 USD генерация останавливается, заявка остаётся." 16 $ink "Segoe UI" 0 | Out-Null
 $year = "Год, касса с буфером 20% — 59 102 ₽`r`rГод с трудом автора — 419 102 ₽`r`rБот для клиента — 0 ₽`r`rКасса года — 12 консультаций по 5 000 ₽"
 Add-Tx $s 540 150 370 220 $year 18 $ink "Segoe UI" 0 | Out-Null
 Add-Foot $s "Пик 80 диалогов — около 8 864 ₽ кассы в месяц" "7" $false
 
 $s = $pres.Slides.Add(8, 12); Set-Bg $s $paper
 Add-Tx $s 48 32 700 18 "ДАЛЬШЕ" 13 $steel "Bahnschrift" 0 | Out-Null
-Add-Tx $s 48 56 860 46 "Пилот на сервере в России" 32 $ink "Bahnschrift" 1 | Out-Null
+Add-Tx $s 48 56 860 46 "Уже на сервере сайта" 32 $ink "Bahnschrift" 1 | Out-Null
 $next = @(
-  @("Куда ставить", "VPS Timeweb Cloud в Москве, Docker Compose, long polling. Заявка не уезжает за рубеж."),
-  @("Пилот", "5–10 человек и журнал 14 дней вместо гипотезы 30 диалогов. Правка сайта, затем /reindex."),
-  @("Не в этой версии", "Оплата, коммерческое предложение компании, календарь, виджет сайта и вторая модель.")
+  @("Где", "147.45.150.56, рядом с komfortnavigator.ru. Отдельный Compose, база только на localhost. После перезагрузки поднимается сам."),
+  @("OpenAI", "Официальный API. Московский адрес дата-центра закрыт, выход через 72.56.100.17. Заявка остаётся в России."),
+  @("Дальше", "Пилот 5–10 человек и журнал 14 дней. Оплата, КП компании, календарь и виджет в эту версию не входят.")
 )
 for ($i = 0; $i -lt 3; $i++) {
   $x = 48 + ($i * 296)
@@ -169,8 +169,11 @@ for ($i = 0; $i -lt 3; $i++) {
 }
 Add-Foot $s "Действующий бот на сайте не перенастраивался" "8" $false
 
+$pdf = $out -replace '\.pptx$', '.pdf'
 if (Test-Path $out) { Remove-Item $out -Force }
+if (Test-Path $pdf) { Remove-Item $pdf -Force }
 $pres.SaveAs($out, 24)
+$pres.SaveAs($pdf, 32)
 $pres.Close()
 $pp.Quit()
 Write-Output "pptx-ok"
