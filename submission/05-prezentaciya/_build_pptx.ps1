@@ -57,6 +57,16 @@ function Add-FootLink($slide, $label, $url, $num) {
   $n = Add-Tx $slide 860 508 52 18 $num 12 $muted "Segoe UI" 0
   $n.TextFrame.TextRange.ParagraphFormat.Alignment = 3
 }
+function Set-Notes($slide, $text) {
+  $body = $null
+  foreach ($shape in $slide.NotesPage.Shapes) {
+    if ($shape.HasTextFrame -eq -1 -and $shape.PlaceholderFormat.Type -eq 2) {
+      $body = $shape
+    }
+  }
+  if ($null -eq $body) { throw "На слайде нет поля заметок" }
+  $body.TextFrame.TextRange.Text = $text
+}
 function Add-Foot($slide, $left, $num, $dark) {
   $color = $(if ($dark) { (C 157 180 188) } else { $muted })
   Add-Tx $slide 48 508 640 18 $left 12 $color "Segoe UI" 0 | Out-Null
@@ -75,7 +85,7 @@ $s = $pres.Slides.Add(2, 12); Set-Bg $s $paper
 Add-Tx $s 48 32 700 18 "ПРОБЛЕМА" 13 $steel "Bahnschrift" 0 | Out-Null
 Add-Tx $s 48 56 860 80 "Один вопрос, два контура, ответ человека — в рабочий день" 28 $ink "Bahnschrift" 1 | Out-Null
 $cards = @(
-  @("Вечер и выходной", "На сайте написано, что Александр отвечает в течение рабочего дня. Между встречами вопрос уже лежит на странице."),
+  @("Вечер и выходной", "Сайт обещает ответ человека в течение рабочего дня. Вечером и между встречами готовый ответ уже опубликован, но посетитель собирает его сам."),
   @("Два сайта", "Опыт и вилка консультации — на komfortnavigator.ru. Каталог поддержки — на 1c-prem.ru."),
   @("Легко смешать", "5 000–15 000 ₽ — личная консультация. Цены ООО «1С-Премиум» на сайте нет, и бот их не сочиняет.")
 )
@@ -176,11 +186,37 @@ for ($i = 0; $i -lt 3; $i++) {
 }
 Add-FootLink $s "t.me/AI_KomfortNavigator_bot" "https://t.me/AI_KomfortNavigator_bot" "8"
 
+$notesPath = Join-Path $PSScriptRoot "notes.txt"
+$notesMap = @{}
+$current = 0
+$bucket = New-Object System.Collections.Generic.List[string]
+foreach ($line in [System.IO.File]::ReadAllLines($notesPath, [System.Text.Encoding]::UTF8)) {
+  if ($line -match '^@@(\d+)$') {
+    if ($current -gt 0) { $notesMap[$current] = ($bucket -join "`r").Trim() }
+    $current = [int]$Matches[1]
+    $bucket = New-Object System.Collections.Generic.List[string]
+  } elseif ($current -gt 0) {
+    $bucket.Add($line)
+  }
+}
+if ($current -gt 0) { $notesMap[$current] = ($bucket -join "`r").Trim() }
+for ($i = 1; $i -le 8; $i++) {
+  if (-not $notesMap.ContainsKey($i)) { throw "Нет текстовки для слайда $i" }
+  Set-Notes $pres.Slides.Item($i) $notesMap[$i]
+}
+
 $pdf = $out -replace '\.pptx$', '.pdf'
 if (Test-Path $out) { Remove-Item $out -Force }
-if (Test-Path $pdf) { Remove-Item $pdf -Force }
 $pres.SaveAs($out, 24)
-$pres.SaveAs($pdf, 32)
+try {
+  if (Test-Path $pdf) { Remove-Item $pdf -Force }
+  $pres.SaveAs($pdf, 32)
+  Write-Output "pdf-ok"
+} catch {
+  $fallback = $pdf -replace '\.pdf$', '-new.pdf'
+  $pres.SaveAs($fallback, 32)
+  Write-Output "pdf-locked-wrote-new"
+}
 $pres.Close()
 $pp.Quit()
 Write-Output "pptx-ok"
