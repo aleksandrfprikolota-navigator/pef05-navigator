@@ -50,6 +50,13 @@ function Add-Horizon($slide, $x, $y, $dark) {
   $right = Add-Tx $slide ($x + 150) ($y + 12) 150 18 "1С-Премиум" 11 $(if ($dark) { $light } else { $steel }) "Segoe UI" 0
   $right.TextFrame.TextRange.ParagraphFormat.Alignment = 3
 }
+function Add-FootLink($slide, $label, $url, $num) {
+  $box = Add-Tx $slide 48 508 760 22 $label 14 $steel "Segoe UI" 0
+  $box.TextFrame.TextRange.Font.Underline = -1
+  $box.TextFrame.TextRange.ActionSettings(1).Hyperlink.Address = $url
+  $n = Add-Tx $slide 860 508 52 18 $num 12 $muted "Segoe UI" 0
+  $n.TextFrame.TextRange.ParagraphFormat.Alignment = 3
+}
 function Add-Foot($slide, $left, $num, $dark) {
   $color = $(if ($dark) { (C 157 180 188) } else { $muted })
   Add-Tx $slide 48 508 640 18 $left 12 $color "Segoe UI" 0 | Out-Null
@@ -132,7 +139,7 @@ Add-Tx $s 48 130 560 280 ($qs -join "`r") 20 $ink "Segoe UI" 0 | Out-Null
 Add-Tx $s 630 130 280 24 "ЛОВУШКИ" 13 $steel "Bahnschrift" 0 | Out-Null
 $traps = "Цена сопровождения «1С-Премиум» в месяц`r`rЧасы SLA по КПТР для «нашей базы»`r`rДомашний телефон и дата рождения`r`rЛицензия 1С:ERP — этого в базе нет"
 Add-Tx $s 630 164 290 250 $traps 18 $ink "Segoe UI" 0 | Out-Null
-Add-Foot $s "Ответы контрольного прогона — 3–7 секунд" "5" $false
+Add-FootLink $s "t.me/AI_KomfortNavigator_bot   ·   ответы 3–7 секунд" "https://t.me/AI_KomfortNavigator_bot" "5"
 
 $s = $pres.Slides.Add(6, 12); Set-Bg $s $paper
 Add-Tx $s 48 32 700 18 "БАЗА И ГРАНИЦЫ" 13 $steel "Bahnschrift" 0 | Out-Null
@@ -167,7 +174,7 @@ for ($i = 0; $i -lt 3; $i++) {
   Add-Tx $s ($x + 16) 176 248 36 $next[$i][0] 18 $ink "Bahnschrift" 1 | Out-Null
   Add-Tx $s ($x + 16) 220 248 180 $next[$i][1] 16 $ink "Segoe UI" 0 | Out-Null
 }
-Add-Foot $s "Действующий бот на сайте не перенастраивался" "8" $false
+Add-FootLink $s "t.me/AI_KomfortNavigator_bot" "https://t.me/AI_KomfortNavigator_bot" "8"
 
 $pdf = $out -replace '\.pptx$', '.pdf'
 if (Test-Path $out) { Remove-Item $out -Force }
