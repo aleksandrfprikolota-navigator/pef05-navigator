@@ -15,6 +15,7 @@ Telegram-бот с поиском по публичным материалам �
 | Презентация | `submission/05-prezentaciya/` — HTML, PDF и редактируемый PPTX |
 | Работающий MVP | этот каталог, команда `python -m app.bot` |
 | Протокол вопросов и ответы к защите | `submission/` |
+| Описание таблиц PostgreSQL | `docs/Описание таблиц PostgreSQL.docx` |
 
 ## Запуск локально
 
